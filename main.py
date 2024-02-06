@@ -1,36 +1,5 @@
+import random
 import time
-def printQuestions():
-    print("prasanja")
-def printManual():
-    print("upatostvo")
-    with open('Upatstvo', 'r', encoding='utf-8') as file:
-        prav=file.read()
-        print(prav)
-def printMax():
-    print("max")
-def printStartText():
-    print("Dobrodojdovte vo kvizot")
-    print("Izberete edna od opciite:")
-    print("Upatstvo za igranje...............1")
-    print("Start.............................2")
-    print("Best Score........................3")
-    print("Leave.............................4")
-def cases(option):
-    if option == 1:
-        printManual()
-        if input() == "Back":
-            printStartText()
-            option = int(input())
-            cases(option)
-
-    elif option == 2:
-        printQuestions()
-    elif option == 3:
-        printMax()
-    else:
-        print("Vi blagodarime i prijatno")
-
-
 def counter(sec,numOfQuestions):
     print(f"Na ova nivo imate {sec} da odgovorite na {numOfQuestions} prasanja")
     time.sleep(10)
@@ -47,6 +16,67 @@ def counter(sec,numOfQuestions):
             sec = sec - 10
 
     print("Vremeto istece  vnesete gi vasite odgovori")
+def printQuestions():
+    print("prasanja")
+def printManual():
+    print("upatostvo")
+    with open('Upatstvo', 'r', encoding='utf-8') as file:
+        prav=file.read()
+        print(prav)
+def printMax():
+    scores=[]
+    with open('Scores', 'r', encoding='utf-8') as file:
+        for line in file:
+            scores.append(int(line))
+    print(max(scores))
+def printReadTutorial():
+    tutorials=[]
+    with open('Tutorials', 'r', encoding='utf-8') as file:
+        for line in file:
+            tutorials.append(line)
+    random.shuffle(tutorials)
+    print(tutorials[0])
+
+def printStartText():
+    print("Dobrodojdovte vo kvizot")
+    print("Izberete edna od opciite:")
+    print("Upatstvo za igranje...............1")
+    print("Start.............................2")
+    print("Best Score........................3")
+    print("Tutorials.........................4")
+    print("Leave.............................5")
+def checkBack():
+    inp=input()
+    if inp == "Back":
+        printStartText()
+        option = int(input())
+        cases(option)
+    elif inp=="Next":
+        checkNextTutorial()
+
+def checkNextTutorial():
+        printReadTutorial()
+        checkBack()
+
+
+def cases(option):
+    if option == 1:
+        printManual()
+        checkBack()
+    elif option == 2:
+        printQuestions()
+    elif option == 3:
+        printMax()
+        checkBack()
+    elif option==4:
+        printReadTutorial()
+        checkBack()
+
+    else:
+        print("Vi blagodarime i prijatno")
+
+
+
 
 questionsList=[];
 with open('Prasanja', 'r',encoding='utf-8') as file:
@@ -60,7 +90,3 @@ hardQusetions=questionsList[30:]
 printStartText()
 option=int(input())
 cases(option)
-
-
-# print(questionsList[10])
-# counter(50,5)

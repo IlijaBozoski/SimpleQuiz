@@ -68,7 +68,7 @@ def checkPoints(inpAns,correctAns):
     return pt
 def printQuestions(easyQuestions,answers):
     correctAns1=printNivo1(easyQuestions,answers)
-    # print(correctAns1)
+    print(correctAns1)
     # counter(60,5)
     inpAns = input().upper()
     points1=checkPoints(inpAns,correctAns1)
@@ -95,11 +95,17 @@ def printQuestions(easyQuestions,answers):
     correctAns3=printNivo3(hardQusetions,hardAnswers)
     # counter(30,5)
     print(correctAns3)
-    inpAns = input()
+    inpAns = input().upper()
     points3 = checkPoints(inpAns, correctAns3)
     print(f'Vo tretoto nivo osvoivte {points3} poeni')
     points=points1+points2+points3
     print(f'Vkupniot broj na poeni koj go osvoivte e {points}')
+    if points>=printMax():
+        with open('Scores','w')as file:
+            file.write(str(points))
+        print("Cestitki vie postavivte nov rekord na poeni")
+    else:
+        print(f"Dosegasniot rekord na poeni e {printMax()}")
     print("Dali sakate da igrate povtorno [YES/NO]")
     if input().upper()=="YES":
         cases(2)
@@ -119,7 +125,8 @@ def printMax():
     with open('Scores', 'r', encoding='utf-8') as file:
         for line in file:
             scores.append(int(line))
-    print(max(scores))
+
+    return max(scores)
 def printReadTutorial():
     tutorials=[]
     with open('Tutorials', 'r', encoding='utf-8') as file:
@@ -164,7 +171,7 @@ def cases(option):
     elif option == 2:
         printQuestions(easyQuestions,answers)
     elif option == 3:
-        printMax()
+        print(printMax())
         checkBackForEverythingExceptTutorials()
     elif option==4:
         printReadTutorial()
